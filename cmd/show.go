@@ -4,13 +4,18 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/LakshyaNegi/todos/entity"
 	"github.com/LakshyaNegi/todos/repo"
+	ui "github.com/LakshyaNegi/todos/ui/show"
+
 	"github.com/LakshyaNegi/todos/utils"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -24,16 +29,17 @@ var showCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if cmd.Flags().NFlag() > 0 && len(args) > 0 {
 			log.Fatal("please provide either flags or arguments, not both")
+
 		}
+
+		todos := []*entity.Todo{}
+		var err error
 
 		if cmd.Flags().NFlag() > 0 {
 			cmd.Flags().VisitAll(func(flag *pflag.Flag) {
 				if !(flag.Changed) {
 					return
 				}
-
-				todos := []*entity.Todo{}
-				var err error
 
 				switch flag.Name {
 				case "all":
@@ -85,7 +91,10 @@ var showCmd = &cobra.Command{
 						}
 					}
 				case "overdue":
-					break
+					todos, err = repo.GetRepo().GetOverdueTodos()
+					if err != nil {
+						log.Fatalf("failed to get overdue todos: %v", err)
+					}
 				case "today":
 					now := utils.Bod(time.Now()).AddDate(0, 0, 1)
 
@@ -96,21 +105,7 @@ var showCmd = &cobra.Command{
 				default:
 					log.Fatalf("invalid flag: %s", flag.Name)
 				}
-
-				num := len(todos)
-				if cmd.Flag("num").Changed {
-					num, err = cmd.Flags().GetInt("num")
-					if err != nil {
-						log.Fatalf("failed to parse num flag: %v", err)
-					}
-				}
-
-				for _, todo := range todos[:num] {
-					todo.Show()
-				}
 			})
-
-			return
 		} else if len(args) == 1 {
 			id, err := strconv.Atoi(args[0])
 			if err != nil {
@@ -122,14 +117,12 @@ var showCmd = &cobra.Command{
 				log.Printf("failed to get todos: %v", err)
 			}
 
-			log.Printf("%+v", todo)
-
-			return
-		}
-
-		todos, err := repo.GetRepo().GetIncompleteTodosOrderedByDueDateAsc()
-		if err != nil {
-			log.Printf("failed to get todos: %v", err)
+			todos = append(todos, todo)
+		} else {
+			todos, err = repo.GetRepo().GetIncompleteTodosOrderedByDueDateAsc()
+			if err != nil {
+				log.Printf("failed to get todos: %v", err)
+			}
 		}
 
 		num := len(todos)
@@ -140,8 +133,11 @@ var showCmd = &cobra.Command{
 			}
 		}
 
-		for _, todo := range todos[:num] {
-			todo.Show()
+		m := ui.NewModelFromTodos(todos[:num])
+
+		if _, err := tea.NewProgram(m).Run(); err != nil {
+			fmt.Println("Error running program:", err)
+			os.Exit(1)
 		}
 	},
 }
