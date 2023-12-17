@@ -4,10 +4,14 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/LakshyaNegi/todos/repo"
+	"github.com/LakshyaNegi/todos/ui/del"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
 )
 
@@ -21,16 +25,30 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Args: cobra.ExactArgs(1),
+	Args: cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
-		id, err := strconv.Atoi(args[0])
-		if err != nil {
-			log.Fatal("please provide a valid integer todo id")
+		if len(args) > 0 {
+			id, err := strconv.Atoi(args[0])
+			if err != nil {
+				log.Fatal("please provide a valid integer todo id")
+			}
+
+			err = repo.GetRepo().DeleteByID(id)
+			if err != nil {
+				log.Printf("failed to delete todo: %v", err)
+			}
+
+			return
 		}
 
-		err = repo.GetRepo().DeleteByID(id)
+		todos, err := repo.GetRepo().GetTodos()
 		if err != nil {
-			log.Printf("failed to delete todo: %v", err)
+			log.Fatalf("failed to get todos: %v", err)
+		}
+
+		if _, err := tea.NewProgram(del.NewDeleteModelFromTodos(todos)).Run(); err != nil {
+			fmt.Println("Error running program:", err)
+			os.Exit(1)
 		}
 	},
 }
