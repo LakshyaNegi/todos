@@ -28,7 +28,7 @@ to quickly create a Cobra application.`,
 			log.Fatal("please provide a valid integer todo id")
 		}
 
-		err = repo.GetRepo().UpdateDoneByID(id)
+		err = repo.GetRepo().UpdateTodoCompletedByID(id)
 		if err != nil {
 			log.Printf("failed to update todo: %v", err)
 		}

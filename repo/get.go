@@ -13,7 +13,7 @@ func (r *repo) GetTodoById(id int) (*entity.Todo, error) {
 
 	todo := entity.Todo{}
 
-	err := row.Scan(&todo.ID, &todo.Task, &todo.DueDate, &todo.CompletedAt, &todo.CreatedAt, &todo.UpdatedAt)
+	err := row.Scan(&todo.ID, &todo.Task, &todo.Status, &todo.DueDate, &todo.CompletedAt, &todo.CreatedAt, &todo.UpdatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -22,13 +22,13 @@ func (r *repo) GetTodoById(id int) (*entity.Todo, error) {
 }
 
 func (r *repo) GetTodos() ([]*entity.Todo, error) {
-	query := `SELECT * FROM todos`
+	query := `SELECT * FROM todos ORDER BY created_at DESC`
 
 	return r.runGetTodosQuery(query)
 }
 
 func (r *repo) GetIncompleteTodosOrderedByDueDateAsc() ([]*entity.Todo, error) {
-	query := `SELECT * FROM todos WHERE completed_at IS NULL ORDER BY due_date ASC`
+	query := `SELECT * FROM todos WHERE completed_at IS NULL ORDER BY due_date ASC NULLS LAST`
 
 	return r.runGetTodosQuery(query)
 }
@@ -58,7 +58,7 @@ func (r *repo) GetDueTodosBefore(date time.Time) ([]*entity.Todo, error) {
 }
 
 func (r *repo) GetPendingTodos() ([]*entity.Todo, error) {
-	query := `SELECT * FROM todos WHERE completed_at IS NULL ORDER BY due_date ASC`
+	query := `SELECT * FROM todos WHERE completed_at IS NULL ORDER BY due_date ASC NULLS LAST`
 
 	return r.runGetTodosQuery(query)
 }

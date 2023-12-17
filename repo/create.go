@@ -2,7 +2,6 @@ package repo
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/LakshyaNegi/todos/entity"
@@ -31,7 +30,6 @@ func (r *repo) CreateTodoWithDueDate(task string, dueDate time.Time) error {
 		fmt.Sprintf(`INSERT INTO todos (task, status, due_date, created_at, updated_at) 
 		VALUES (?, "%s", ?, datetime('now'), datetime('now'))`, entity.TodoStatusPending)
 
-	log.Print(query)
 	statement, err := r.db.Prepare(query)
 	if err != nil {
 		return err
