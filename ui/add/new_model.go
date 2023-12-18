@@ -1,10 +1,14 @@
 package add
 
-import "github.com/charmbracelet/bubbles/textinput"
+import (
+	"github.com/charmbracelet/bubbles/cursor"
+	"github.com/charmbracelet/bubbles/textinput"
+)
 
 func NewAddModel() model {
 	m := model{
-		inputs: make([]textinput.Model, 2),
+		inputs:     make([]textinput.Model, 2),
+		cursorMode: cursor.CursorStatic,
 	}
 
 	var t textinput.Model

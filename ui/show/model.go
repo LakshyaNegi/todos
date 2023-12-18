@@ -6,6 +6,7 @@ import (
 
 	"github.com/LakshyaNegi/todos/entity"
 	"github.com/LakshyaNegi/todos/repo"
+	"github.com/LakshyaNegi/todos/ui"
 
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/table"
@@ -15,7 +16,7 @@ import (
 
 var baseStyle = lipgloss.NewStyle().
 	BorderStyle(lipgloss.NormalBorder()).
-	BorderForeground(lipgloss.Color("240"))
+	BorderForeground(lipgloss.Color(ui.BlurredBgColor))
 
 type model struct {
 	table table.Model

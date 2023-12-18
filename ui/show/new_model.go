@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/LakshyaNegi/todos/entity"
+	"github.com/LakshyaNegi/todos/ui"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/lipgloss"
@@ -50,12 +51,12 @@ func NewModelFromTodos(todos []*entity.Todo) model {
 	s := table.DefaultStyles()
 	s.Header = s.Header.
 		BorderStyle(lipgloss.NormalBorder()).
-		BorderForeground(lipgloss.Color("240")).
+		BorderForeground(lipgloss.Color(ui.BlurredBgColor)).
 		BorderBottom(true).
 		Bold(false)
 	s.Selected = s.Selected.
-		Foreground(lipgloss.Color("229")).
-		Background(lipgloss.Color("57")).
+		Foreground(lipgloss.Color(ui.WhiteTextColor)).
+		Background(lipgloss.Color(ui.SelectionBgColor)).
 		Bold(false)
 	t.SetStyles(s)
 
