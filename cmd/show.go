@@ -24,7 +24,7 @@ import (
 var showCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show all todos",
-	Long:  `This command shows all the todos in your list.`,
+	Long:  `Show all todos. If no flags are provided, all incomplete todos will be shown. If a todo id is provided, only that todo will be shown.`,
 	Args:  cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if cmd.Flags().NFlag() > 0 && len(args) > 0 {

@@ -20,7 +20,7 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a new todo",
-	Long:  `This command adds a new todo item to your list of todos.`,
+	Long:  `This command adds a new todo item to your list of todos. If no todo is provided, a prompt will be shown to enter the todo.`,
 	Args:  cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {

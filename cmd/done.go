@@ -18,14 +18,9 @@ import (
 // doneCmd represents the done command
 var doneCmd = &cobra.Command{
 	Use:   "done",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Args: cobra.RangeArgs(0, 1),
+	Short: "Mark a todo as done",
+	Long:  `Mark a todo as done by providing the todo id. If no id is provided, a list of todos will be shown to choose from.`,
+	Args:  cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			id, err := strconv.Atoi(args[0])
