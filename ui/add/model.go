@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/LakshyaNegi/todos/repo"
+	"github.com/LakshyaNegi/todos/ui"
 	"github.com/charmbracelet/bubbles/cursor"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
@@ -14,12 +15,10 @@ import (
 )
 
 var (
-	focusedStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
-	blurredStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color("240"))
-	cursorStyle         = focusedStyle.Copy()
-	noStyle             = lipgloss.NewStyle()
-	helpStyle           = blurredStyle.Copy()
-	cursorModeHelpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
+	focusedStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(ui.SelectionBgColor))
+	blurredStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(ui.BlurredBgColor))
+	cursorStyle  = focusedStyle.Copy()
+	noStyle      = lipgloss.NewStyle()
 
 	focusedButton = focusedStyle.Copy().Render("[ Submit ]")
 	blurredButton = fmt.Sprintf("[ %s ]", blurredStyle.Render("Submit"))
@@ -32,7 +31,7 @@ type model struct {
 }
 
 func (m model) Init() tea.Cmd {
-	return textinput.Blink
+	return nil
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -103,6 +102,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if i == m.focusIndex {
 					// Set focused state
 					cmds[i] = m.inputs[i].Focus()
+					m.inputs[i].Cursor.SetMode(m.cursorMode)
 					m.inputs[i].PromptStyle = focusedStyle
 					m.inputs[i].TextStyle = focusedStyle
 					continue
@@ -137,6 +137,7 @@ func (m *model) updateInputs(msg tea.Msg) tea.Cmd {
 
 func (m model) View() string {
 	var b strings.Builder
+	b.WriteRune('\n')
 
 	for i := range m.inputs {
 		b.WriteString(m.inputs[i].View())
@@ -150,10 +151,6 @@ func (m model) View() string {
 		button = &focusedButton
 	}
 	fmt.Fprintf(&b, "\n\n%s\n\n", *button)
-
-	b.WriteString(helpStyle.Render("cursor mode is "))
-	b.WriteString(cursorModeHelpStyle.Render(m.cursorMode.String()))
-	b.WriteString(helpStyle.Render(" (ctrl+r to change style)"))
 
 	return b.String()
 }

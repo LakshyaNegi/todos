@@ -6,7 +6,14 @@ import (
 
 	"github.com/LakshyaNegi/todos/entity"
 	"github.com/LakshyaNegi/todos/repo"
+	"github.com/LakshyaNegi/todos/ui"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	selectedItemStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(ui.SelectionBgColor))
+	crossStyle        = lipgloss.NewStyle().Foreground(lipgloss.Color(ui.RedColor))
 )
 
 type model struct {
@@ -71,7 +78,7 @@ func (m model) View() string {
 		return "No todos to show!\n"
 	}
 
-	s := "Mark todos to delete\n\n"
+	s := "\nMark todos to delete\n\n"
 
 	for i, choice := range m.choices {
 		cursor := " "
@@ -81,13 +88,20 @@ func (m model) View() string {
 
 		checked := " "
 		if _, ok := m.selected[i]; ok {
-			checked = "x"
+			checked = crossStyle.Render("x")
 		}
 
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice.Task)
+		if m.cursor == i {
+			s += selectedItemStyle.Render(fmt.Sprintf("\n%s [", cursor))
+			s += checked
+			s += selectedItemStyle.Render(fmt.Sprintf("] %s", choice.Task))
+		} else {
+			s += fmt.Sprintf("\n%s [%s] %s", cursor, checked, choice.Task)
+		}
+
 	}
 
-	s += "\nPress q to quit.\nPress space to select a todo.\nPress enter to delete selected todos.\n\n"
+	s += "\n\nPress q to quit.\nPress space to select a todo.\nPress enter to delete selected todos.\n\n"
 
 	return s
 }
