@@ -14,13 +14,8 @@ import (
 // resetCmd represents the reset command
 var resetCmd = &cobra.Command{
 	Use:   "reset",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Reset the database",
+	Long:  `Reset the database. This will delete all the todos and create a new database file.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		os.Remove("data/todos.db")
 
