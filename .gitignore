@@ -24,3 +24,7 @@ go.work
 todo
 
 data/*
+
+.DS_Store
+
+todo
