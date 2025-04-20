@@ -3,7 +3,7 @@ package repo
 import (
 	"fmt"
 
-	"github.com/LakshyaNegi/todos/entity"
+	"github.com/LakshyaNegi/todos/internal/entity"
 )
 
 func (r *repo) UpdateTodoCompletedByID(id int) error {

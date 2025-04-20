@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/LakshyaNegi/todos/entity"
-	"github.com/LakshyaNegi/todos/repo"
-	"github.com/LakshyaNegi/todos/ui"
+	"github.com/LakshyaNegi/todos/internal/entity"
+	"github.com/LakshyaNegi/todos/internal/repo"
+	"github.com/LakshyaNegi/todos/internal/ui"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )

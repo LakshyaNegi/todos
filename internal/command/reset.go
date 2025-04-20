@@ -1,13 +1,13 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package command
 
 import (
 	"log"
 	"os"
 
-	"github.com/LakshyaNegi/todos/repo"
+	"github.com/LakshyaNegi/todos/internal/repo"
 	"github.com/spf13/cobra"
 )
 

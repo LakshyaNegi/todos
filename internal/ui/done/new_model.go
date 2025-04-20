@@ -1,6 +1,6 @@
 package done
 
-import "github.com/LakshyaNegi/todos/entity"
+import "github.com/LakshyaNegi/todos/internal/entity"
 
 func NewDoneModelFromTodos(todos []*entity.Todo) model {
 	return model{

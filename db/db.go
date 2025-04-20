@@ -7,8 +7,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func InitDB(file string) *sql.DB {
-	db, err := sql.Open("sqlite3", file)
+func InitDB() {
+	db, err := sql.Open("sqlite3", "data/todos.db")
 	if err != nil {
 		log.Fatal("failed to open database:", err)
 	}
@@ -21,6 +21,18 @@ func InitDB(file string) *sql.DB {
 	err = createTable(db)
 	if err != nil {
 		log.Fatal("failed to create todos table:", err)
+	}
+}
+
+func Connect(file string) *sql.DB {
+	db, err := sql.Open("sqlite3", file)
+	if err != nil {
+		log.Fatal("failed to open database:", err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatal("failed to connect to the database:", err)
 	}
 
 	return db
