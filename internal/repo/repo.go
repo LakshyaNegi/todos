@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/LakshyaNegi/todos/db"
-	"github.com/LakshyaNegi/todos/entity"
+	"github.com/LakshyaNegi/todos/internal/entity"
 )
 
 type repo struct {
@@ -15,7 +15,7 @@ var r *repo
 
 func InitRepo() {
 	r = &repo{
-		db: db.InitDB("data/todos.db"),
+		db: db.Connect("data/todos.db"),
 	}
 }
 

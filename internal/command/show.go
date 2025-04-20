@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package command
 
 import (
 	"fmt"
@@ -10,11 +10,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/LakshyaNegi/todos/entity"
-	"github.com/LakshyaNegi/todos/repo"
-	ui "github.com/LakshyaNegi/todos/ui/show"
-
-	"github.com/LakshyaNegi/todos/utils"
+	"github.com/LakshyaNegi/todos/internal/entity"
+	"github.com/LakshyaNegi/todos/internal/repo"
+	"github.com/LakshyaNegi/todos/internal/ui/show"
+	"github.com/LakshyaNegi/todos/pkg/utils"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -133,7 +132,7 @@ var showCmd = &cobra.Command{
 			}
 		}
 
-		m := ui.NewModelFromTodos(todos[:num])
+		m := show.NewModelFromTodos(todos[:num])
 
 		if _, err := tea.NewProgram(m).Run(); err != nil {
 			fmt.Println("Error running program:", err)

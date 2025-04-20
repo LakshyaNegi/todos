@@ -3,8 +3,8 @@ package show
 import (
 	"strconv"
 
-	"github.com/LakshyaNegi/todos/entity"
-	"github.com/LakshyaNegi/todos/ui"
+	"github.com/LakshyaNegi/todos/internal/entity"
+	"github.com/LakshyaNegi/todos/internal/ui"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/lipgloss"

@@ -3,7 +3,7 @@ package repo
 import (
 	"time"
 
-	"github.com/LakshyaNegi/todos/entity"
+	"github.com/LakshyaNegi/todos/internal/entity"
 )
 
 func (r *repo) GetTodoById(id int) (*entity.Todo, error) {

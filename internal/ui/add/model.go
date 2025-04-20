@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/LakshyaNegi/todos/repo"
-	"github.com/LakshyaNegi/todos/ui"
+	"github.com/LakshyaNegi/todos/internal/repo"
+	"github.com/LakshyaNegi/todos/internal/ui"
 	"github.com/charmbracelet/bubbles/cursor"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"

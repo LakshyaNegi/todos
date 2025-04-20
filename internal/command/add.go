@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package command
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/LakshyaNegi/todos/repo"
-	"github.com/LakshyaNegi/todos/ui/add"
+	"github.com/LakshyaNegi/todos/internal/repo"
+	"github.com/LakshyaNegi/todos/internal/ui/add"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"

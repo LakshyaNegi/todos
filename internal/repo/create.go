@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/LakshyaNegi/todos/entity"
+	"github.com/LakshyaNegi/todos/internal/entity"
 )
 
 func (r *repo) CreateTodo(task string) error {
